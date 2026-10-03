@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f1e9">
+  <title>Linux File System Apartment Complex</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container is-fluid header-inner">
+      <a class="brand" href="#top" aria-label="Linux Apartment Complex home">
+        <span class="brand-mark"><i class="fa-solid fa-building" aria-hidden="true"></i></span>
+        <span><strong>Linux Apartment Complex</strong><small>Learn your way around the file system</small></span>
+      </a>
+      <div class="header-actions">
+        <span class="user-chip"><i class="fa-solid fa-user-graduate" aria-hidden="true"></i> student</span>
+        <button class="button theme-button" id="themeToggle" type="button" aria-pressed="false">
+          <span class="icon"><i class="fa-solid fa-moon" aria-hidden="true"></i></span><span>Dark mode</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container is-fluid page-shell" id="top">
+    <section class="welcome-row" aria-label="Introduction">
+      <div>
+        <p class="eyebrow">YOUR LINUX NEIGHBORHOOD</p>
+        <h1>Take a walk through the file system.</h1>
+        <p class="welcome-copy">Directories are places. Files are things inside them. Use the terminal to find your way.</p>
+      </div>
+      <div class="metaphor-note"><span class="note-icon"><i class="fa-solid fa-lightbulb" aria-hidden="true"></i></span><span><strong>Think of <code>/</code> as the whole property.</strong><br>Every path starts at the building entrance.</span></div>
+    </section>
+
+    <div class="columns is-variable is-5 main-columns">
+      <div class="column is-8-desktop">
+        <section class="card complex-card" aria-labelledby="visual-heading">
+          <div class="card-content complex-content">
+            <div class="section-heading">
+              <div><p class="eyebrow">VISUAL FILE SYSTEM</p><h2 id="visual-heading">Apartment complex</h2></div>
+              <div class="location-pill"><span class="live-dot"></span><span id="visualPath">/home/student</span></div>
+            </div>
+            <div class="scene-toolbar">
+              <button id="parentButton" class="button is-small is-light" type="button" aria-label="Go to parent directory"><span class="icon"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></span><span>Parent</span></button>
+              <span class="scene-hint"><i class="fa-solid fa-hand-pointer" aria-hidden="true"></i> Select an open directory to walk there</span>
+            </div>
+            <div id="complexScene" class="complex-scene" aria-live="polite" aria-label="Current directory and its contents"></div>
+            <div class="scene-legend"><span><i class="fa-solid fa-door-open" aria-hidden="true"></i> Directory</span><span><i class="fa-solid fa-file-lines" aria-hidden="true"></i> File</span><span><i class="fa-solid fa-lock" aria-hidden="true"></i> Restricted</span><span><i class="fa-solid fa-person-walking" aria-hidden="true"></i> You are here</span></div>
+          </div>
+        </section>
+
+        <section class="current-location card" aria-labelledby="location-heading">
+          <div class="location-symbol"><i class="fa-solid fa-location-dot" aria-hidden="true"></i></div>
+          <div class="location-details"><p class="eyebrow">CURRENT LOCATION</p><h2 id="location-heading">Your apartment</h2><code id="currentPath">/home/student</code></div>
+          <div class="location-user"><span class="avatar"><i class="fa-solid fa-person" aria-hidden="true"></i></span><span>student<small>resident</small></span></div>
+        </section>
+
+        <section class="terminal-card card" aria-labelledby="terminal-heading">
+          <div class="terminal-topbar"><div class="terminal-title"><span class="terminal-light red"></span><span class="terminal-light yellow"></span><span class="terminal-light green"></span><h2 id="terminal-heading">Terminal</h2></div><button id="clearTerminal" class="terminal-clear" type="button" aria-label="Clear terminal output">Clear</button></div>
+          <div id="terminalOutput" class="terminal-output" role="log" aria-live="polite" aria-relevant="additions text"></div>
+          <form id="terminalForm" class="terminal-input-row" autocomplete="off">
+            <label id="promptLabel" class="terminal-prompt" for="commandInput">student@linux:~$</label>
+            <input id="commandInput" class="terminal-input" type="text" spellcheck="false" autocapitalize="off" aria-label="Enter a Linux command" aria-describedby="terminal-help">
+            <button class="terminal-submit" type="submit" aria-label="Run command"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+          </form>
+          <p id="terminal-help" class="terminal-help">Try <code>pwd</code>, <code>ls</code>, or <code>cd Documents</code>. Use ↑ and ↓ for command history.</p>
+        </section>
+      </div>
+
+      <aside class="column is-4-desktop side-column" aria-label="Learning tools">
+        <section class="card devices-card" aria-labelledby="devices-heading">
+          <div class="card-content">
+            <div class="section-heading compact-heading"><div><p class="eyebrow">BRING SOMETHING IN</p><h2 id="devices-heading">External devices</h2></div><span class="device-count" id="deviceCount">0 connected</span></div>
+            <p class="section-intro">Connect storage to give it a place in the Linux file system.</p>
+            <div class="device-buttons" id="deviceButtons"></div>
+            <div class="mount-lesson"><div class="mount-steps"><span>Device</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i><span>Connected</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i><span>Mount point</span></div><p>A mount point is the doorway Linux assigns to a storage device. Once mounted, you can visit it with <code>cd</code>.</p></div>
+            <div id="deviceNotifications" class="device-notifications" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <section class="card help-card" aria-labelledby="help-heading">
+          <div class="card-content">
+            <div class="section-heading compact-heading"><div><p class="eyebrow">LEARN AS YOU GO</p><h2 id="help-heading">Command guide</h2></div><span class="guide-mark"><i class="fa-solid fa-book-open" aria-hidden="true"></i></span></div>
+            <p class="section-intro">Keep the command reference nearby, or give yourself more room to explore.</p>
+            <button class="button is-fullwidth reference-toggle" id="referenceToggle" type="button" aria-expanded="true" aria-controls="commandReference"><span class="icon"><i class="fa-solid fa-eye-slash" aria-hidden="true"></i></span><span>Hide command reference</span></button>
+            <div id="commandReference" class="command-reference">
+              <div class="reference-item"><code>pwd</code><p>Print working directory. It answers: “Where am I?”</p></div>
+              <div class="reference-item"><code>ls</code><p>List the files and directories around you.</p><p class="reference-detail"><code>ls -l</code>, <code>ls -a</code>, and <code>ls -la</code> add detail or show hidden items. Try <code>man ls</code> to read about more options.</p></div>
+              <div class="reference-item"><code>cd</code><p>Change directory — walk to another place.</p><div class="path-examples"><span><b>Relative</b><code>cd Documents</code><small>From where you are now</small></span><span><b>Absolute</b><code>cd /home/student/Documents</code><small>Starts at the root <code>/</code></small></span><span><b>Parent</b><code>cd ..</code><small>Go up one level</small></span><span><b>Previous</b><code>cd -</code><small>Return to your last place</small></span></div></div>
+              <div class="reference-item shortcut-note"><code>cd ~</code><span>and <code>cd</code> without arguments both take you home.</span></div>
+              <div class="external-practice"><p class="eyebrow">PRACTICE MORE LINUX</p><p>Ready to experiment with commands beyond this simulation?</p><a class="button practice-button" href="https://www.webminal.org/" target="_blank" rel="noopener noreferrer"><span class="icon"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></span><span>Open free Bash shell</span></a><small>Opens in a new tab. Its shell is separate from this apartment complex.</small></div>
+            </div>
+          </div>
+        </section>
+      </aside>
+    </div>
+    <footer class="page-footer"><span>Linux is one big neighborhood. Keep exploring.</span><span>V1 · Navigation practice</span></footer>
+  </main>
+  <div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+  <script src="app.js" defer></script>
+</body>
+</html>
